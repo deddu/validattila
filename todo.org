@@ -1,0 +1,38 @@
+* API definition:
+** TODO two or three api 
+*** TODO cb,
+#+begin_src js
+[{
+  name:'notEmpty',
+  test:predicates.not(predicates.empty)),
+  fail_cb: x => (console.err('not empty!'),x),
+  pass_cb: x => (console.log('ok'),x)
+}]
+#+end_src
+
+
+*** TODO event
+rules trigger event. Listen to event in your favorite way
+  
+#+begin_src js
+[{
+  name:'notEmpty',
+  test: predicates.not(predicates.empty)),
+  fail_triggers:'invalid-field',
+  pass_triggers:'valid-field'
+}]
+#+end_src
+ 
+*** TODO promises
+promise will pass or fail
+#+begin_src js
+[{
+name:'notEmpty',
+test: predicates.not(predicates.emtpy)), 
+promise: (prom, ...args) =>
+ (this.test(...args))
+   ? prom.resolve()
+   : prom.fail()
+
+}]
+#+end_src
