@@ -48,10 +48,61 @@ module.exports = {
 };
 'use strict';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var predicates = require('./predicates/predicates.js');
 var predidates = require('./predicates/dates.js');
 
 var defaultrules = [{}];
+
+function call_cb(r, args) {
+	var v = r.test.apply(r, _toConsumableArray(args));
+	//side effect time!
+	v ? r.success.apply(r, [r].concat(_toConsumableArray(args))) : r.fail.apply(r, [r].concat(_toConsumableArray(args)));
+
+	return v;
+};
+
+function call_evt(r, bus, args) {
+	var v = r.test.apply(r, _toConsumableArray(args));
+	//side effect time!
+	v ? bus.trigger(r.pass_trigger, args) : bus.trigger(r.fail_trigger, args);
+
+	return v;
+};
+
+function validate_cb(rules) {
+	(function () {
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return predicates.all(rules.map(function (x) {
+			return call_cb(x, args);
+		}));
+	});
+};
+
+function validate_evt(rules, bus) {
+	(function () {
+		for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+			args[_key2] = arguments[_key2];
+		}
+
+		return predicates.all(rules.map(function (x) {
+			return call_evt(x, bus, args);
+		}));
+	});
+};
+
+module.exports = function (api_type) {
+	switch (api_type) {
+		case 'cb':
+			return validate_cb;
+		case 'evt':
+			return validate_evt;
+	}
+};
 'use strict';
 
 var toDate = require('../helpers.js').toDate;
@@ -171,4 +222,4 @@ function anyF() {
         }, false);
     };
 }
-//# sourceMappingURL=all.js.map
+//# sourceMappingURL=validattila.js.map

@@ -2,7 +2,7 @@
   "name": "validattila",
   "version": "0.0.1",
   "description": "a savage validation library for your forms",
-  "main": "index.js",
+  "main": "dist/validattila.js",
   "scripts": {
     "test": "gulp test"
   },
