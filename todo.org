@@ -47,3 +47,5 @@ promise: (prom, ...args) =>
 ** TODO predicates
 ** TODO dates
 ** TODO common patterns
+** TODO recipes
+*** TODO cross validation on blur

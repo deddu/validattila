@@ -17,7 +17,9 @@ describe('test api cb',function(){
 });
 
 describe('test api evt',function(){
-	const bus = { trigger:(evtname, args)=>(console.log('trigger: ',evtname,' args:', args),evtname)};
+	const bus = { 
+		trigger: (evtname, args) => (console.log('trigger: ', evtname, ' args:', args), evtname)
+	};
 	const rules = [{
 		name:'always true',
 		test: (x)=>true,
