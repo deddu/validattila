@@ -36,3 +36,14 @@ promise: (prom, ...args) =>
 
 }]
 #+end_src
+
+
+* TODO Write tests
+* TODO write readme
+** TODO installation
+** TODO usage
+** TODO examples
+* TODO proper documentation
+** TODO predicates
+** TODO dates
+** TODO common patterns

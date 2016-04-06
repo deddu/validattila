@@ -29,21 +29,19 @@ function call_evt(r,bus,args){
 
 
 function validate_cb(rules){
-	(...args) => predicates.all(
+	return (...args) => predicates.all(
 		rules.map((x) => call_cb(x,args)));
 };
 
 function validate_evt(rules,bus){
-	(...args) => predicates.all(
+	return (...args) => predicates.all(
 		rules.map((x) => call_evt(x,bus,args)));
 };
 
 
-
-
-module.exports = function(api_type){
-	switch (api_type){
-		case 'cb': return validate_cb;
-		case 'evt': return validate_evt;
-	}
+module.exports = function(){
+	return {
+ 		cb:  validate_cb,
+	 	evt: validate_evt
+	};
 }

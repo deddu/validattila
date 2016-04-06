@@ -95,13 +95,11 @@ function validate_evt(rules, bus) {
 	});
 };
 
-module.exports = function (api_type) {
-	switch (api_type) {
-		case 'cb':
-			return validate_cb;
-		case 'evt':
-			return validate_evt;
-	}
+module.exports = function () {
+	return {
+		cb: validate_cb,
+		evt: validate_evt
+	};
 };
 'use strict';
 
@@ -191,6 +189,29 @@ function both(f) {
     };
 }
 
+/*
+wraps the function for sideeffects;
+shitandgiggles = p.wrap(
+  ()=>(console.log('*giggles*','a')), 
+  (stuff)=>(console.log('shit!',stuff),'b') );
+
+> shitandgiggles(123)
+shit! [ 123 ]
+*giggles* a
+
+*/
+function wrap(f, sideeffect) {
+    return function () {
+        return sideeffect.apply(undefined, arguments), f.apply(undefined, arguments);
+    };
+}
+
+var tap = function tap(value) {
+    return function (fn) {
+        return typeof fn === 'function' && fn(value), value;
+    };
+};
+
 function allF() {
     for (var _len2 = arguments.length, funcs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         funcs[_key2] = arguments[_key2];
@@ -222,4 +243,19 @@ function anyF() {
         }, false);
     };
 }
+
+module.exports = {
+    empty: empty,
+    notEmpty: notEmpty,
+    existy: existy,
+    truthy: truthy,
+    all: all,
+    any: any,
+    not: not,
+    both: both,
+    wrap: wrap,
+    tap: tap,
+    allF: allF,
+    anyF: anyF
+};
 //# sourceMappingURL=validattila.js.map
