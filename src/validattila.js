@@ -26,13 +26,19 @@ function call_evt(r,bus,args){
 				return v;
 			};
 
-
-
+/**
+returns a validation function that uses callback api.
+@returns {Function}
+*/
 function validate_cb(rules){
 	return (...args) => predicates.all(
 		rules.map((x) => call_cb(x,args)));
 };
-
+/**
+returns a validation function that uses event api.
+@param {EventEmitter} bus object that implements a metod named 'trigger'; 
+@returns {Function}
+*/
 function validate_evt(rules,bus){
 	return (...args) => predicates.all(
 		rules.map((x) => call_evt(x,bus,args)));
